@@ -174,6 +174,17 @@ html {
   justify-content: flex-end;
 }
 
+.Footer {
+  padding: 32px 0;
+  text-align: center;
+}
+
+.FooterLink {
+  text-decoration: none;
+  font-weight: 700;
+  color: #db6043;
+}
+
 [data-reach-dialog-content] {
   width: 100% !important;
   max-width: 33rem !important;
