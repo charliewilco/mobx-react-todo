@@ -1,34 +1,46 @@
 import { observable, action, computed, reaction } from "mobx";
 import { Todo } from "./todo";
 
+interface ITodoListUIState {
+  selected: string | null;
+  modalOpen: boolean;
+}
+
 export class TodoList {
   @observable public todos: Todo[];
+  @observable public uiState: ITodoListUIState = {
+    modalOpen: false,
+    selected: null
+  };
 
   constructor(initialTodos?: Todo[]) {
     this.todos = !!initialTodos ? initialTodos : [];
 
     reaction(
-      () => this.todos,
+      () => this.todos.length,
       () => {
-        console.log(this.completed);
+        console.log(
+          `Number of todos not completed ${this.todos.length -
+            this.completed.length}`
+        );
       }
     );
   }
 
-  @action.bound public getTask(id: string | null): Todo | null {
+  @action.bound public getTask(id: string | null): string | null {
     if (id === null) {
-      console.log("Get task", null);
-
       return null;
     }
+
     const index = this.todos.findIndex(todo => todo.id === id);
-    const result = index > -1 ? this.todos[0] : null;
-    console.log("Get task", null);
+    const result = index > -1 ? this.todos[0].task : null;
     return result;
   }
 
   @action.bound public addTodo(content: string): void {
+    console.log("Adding Todo");
     this.todos.unshift(new Todo(content));
+    this.uiState.modalOpen = false;
   }
 
   @action.bound public removeTodo(id: string): void {
@@ -47,12 +59,31 @@ export class TodoList {
     }
   }
 
-  @action.bound public updateTask(id: string, task: string) {
-    const index = this.todos.findIndex(todo => todo.id === id);
+  @action.bound public updateTask(task: string) {
+    if (this.uiState.selected !== null) {
+      const index = this.todos.findIndex(
+        todo => todo.id === this.uiState.selected
+      );
 
-    if (index > -1) {
-      this.todos[index].task = task;
+      if (index > -1) {
+        this.todos[index].task = task;
+      }
+
+      this.uiState.selected = null;
+      this.uiState.modalOpen = false;
     }
+  }
+
+  @computed get currentTask(): null | string {
+    if (this.uiState.selected === null) {
+      return null;
+    }
+
+    const index = this.todos.findIndex(
+      todo => todo.id === this.uiState.selected
+    );
+    const result = index > -1 ? this.todos[0].task : null;
+    return result;
   }
 
   @computed get all(): Todo[] {
@@ -60,7 +91,6 @@ export class TodoList {
   }
 
   @computed public get completed(): Todo[] {
-    console.log("I called completed");
     return this.todos.filter(todo => todo.completed);
   }
 

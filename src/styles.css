@@ -42,7 +42,7 @@ html {
 
 .Container {
   margin: 1rem auto 1rem;
-  padding: 8px;
+  padding: 16px;
   max-width: 38rem;
 }
 
@@ -100,7 +100,7 @@ html {
 }
 
 .ListItem {
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 .strike {
@@ -163,7 +163,7 @@ html {
 .Filters {
   display: flex;
   align-items: center;
-  margin-bottom: 64px;
+  margin-bottom: 32px;
 }
 
 .ActionTray {
@@ -179,16 +179,16 @@ html {
 
 [data-reach-tab] {
   appearance: none;
-  padding: 8px;
+  padding: 8px 16px;
   background: #4e5562;
   color: inherit;
   border: 0;
-  border-radius: 8px;
   margin-right: 16px;
-  font-weight: 700;
+  font-weight: 900;
   font-size: 14px;
+  border-bottom: 4px solid currentColor !important;
 }
 
 [data-reach-tab][data-selected] {
-  background: #db6043;
+  color: #db6043 !important;
 }
