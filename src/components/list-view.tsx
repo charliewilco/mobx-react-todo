@@ -4,8 +4,6 @@ import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { Dialog } from "@reach/dialog";
 import { observer } from "mobx-react-lite";
 
-import "@reach/tabs/styles.css";
-import "@reach/dialog/styles.css";
 import { List } from "./list";
 import TodoForm from "./form";
 import { useTodos } from "../context";
