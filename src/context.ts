@@ -5,7 +5,7 @@ import { TodoList } from "./todo-list";
 const INITIAL_TODO = [
   new Todo("Call dad"),
   new Todo("Replace guitar strings"),
-  new Todo("Learn Ruby")
+  new Todo("Learn Ruby"),
 ];
 
 const todos = new TodoList(INITIAL_TODO);
