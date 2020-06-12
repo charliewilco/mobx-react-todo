@@ -8,7 +8,6 @@
     "@reach/dialog": "0.10.1",
     "@reach/tabs": "0.10.1",
     "@types/uuid": "7.0.3",
-    "immer": "6.0.3",
     "mobx": "5.15.4",
     "mobx-react": "^6.2.2",
     "mobx-react-devtools": "^6.1.1",

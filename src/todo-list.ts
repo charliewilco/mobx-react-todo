@@ -1,6 +1,8 @@
 import { observable, action, computed, reaction } from "mobx";
 import { Todo } from "./todo";
 
+// Subject + Observer
+
 interface ITodoListUIState {
   selected: string | null;
   modalOpen: boolean;
@@ -38,7 +40,6 @@ export class TodoList {
   }
 
   @action.bound public addTodo(content: string): void {
-    console.log("Adding Todo");
     this.todos.unshift(new Todo(content));
     this.uiState.modalOpen = false;
   }
@@ -51,22 +52,12 @@ export class TodoList {
     }
   }
 
-  @action.bound public updateTodoStatus(id: string) {
-    const index = this.todos.findIndex(todo => todo.id === id);
-
-    if (index > -1) {
-      this.todos[index].completed = !this.todos[index].completed;
-    }
-  }
-
   @action.bound public updateTask(task: string) {
     if (this.uiState.selected !== null) {
-      const index = this.todos.findIndex(
-        todo => todo.id === this.uiState.selected
-      );
+      const index = this.todos.findIndex(this._isSelected);
 
       if (index > -1) {
-        this.todos[index].task = task;
+        this.todos[index].updateTask(task);
       }
 
       this.uiState.selected = null;
@@ -74,14 +65,16 @@ export class TodoList {
     }
   }
 
+  private _isSelected = (todo: Todo) => {
+    return todo.id === this.uiState.selected;
+  };
+
   @computed get currentTask(): null | string {
     if (this.uiState.selected === null) {
       return null;
     }
 
-    const index = this.todos.findIndex(
-      todo => todo.id === this.uiState.selected
-    );
+    const index = this.todos.findIndex(this._isSelected);
     const result = index > -1 ? this.todos[0].task : null;
     return result;
   }
